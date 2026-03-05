@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000" // ✅ URL complète
+const BASE_URL = "https://contact-s5ve.onrender.com" // ✅ URL complète
 const tableBody = document.getElementById("contactTableBody")
 let editId = null
 
