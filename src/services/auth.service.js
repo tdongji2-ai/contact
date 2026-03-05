@@ -3,15 +3,13 @@ const bcrypt = require('bcrypt')
 
 // INSCRIPTION
 exports.register = async ({nom, email, password}) => {
-
-    // Chiffre le mot de passe
     const hash = await bcrypt.hash(password, 10)
 
     const result = await pool.query(
-        `INSERT INTO users(nom, email, password)
-         VALUES($1, $2, $3)
+        `INSERT INTO users(nom, email, password, auth_type)
+         VALUES($1, $2, $3, 'local')
          RETURNING id, nom, email`,
-        [nom, email, hash]  // ✅ sauvegarde le hash, jamais le vrai mot de passe
+        [nom, email, hash]
     )
 
     return result.rows[0]
@@ -19,8 +17,6 @@ exports.register = async ({nom, email, password}) => {
 
 // CONNEXION
 exports.login = async ({email, password}) => {
-
-    // Cherche l'utilisateur par email
     const result = await pool.query(
         "SELECT * FROM users WHERE email = $1",
         [email]
@@ -28,13 +24,20 @@ exports.login = async ({email, password}) => {
 
     const user = result.rows[0]
 
-    // Vérifie si l'utilisateur existe
     if(!user) throw new Error("Email ou mot de passe incorrect")
 
-    // Compare le mot de passe avec le hash
+    // ✅ Vérifie si compte Google
+    if(user.auth_type === 'google'){
+        throw new Error("Ce compte utilise Google pour se connecter")
+    }
+
+    // ✅ Vérifie si password est null
+    if(!user.password){
+        throw new Error("Email ou mot de passe incorrect")
+    }
+
     const valid = await bcrypt.compare(password, user.password)
     if(!valid) throw new Error("Email ou mot de passe incorrect")
 
     return user
 }
-
