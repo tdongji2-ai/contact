@@ -10,7 +10,6 @@ const pool = require('./config/db')
 
 const app = express()
 
-// ✅ Crée les tables automatiquement
 const createTables = async () => {
     try {
         await pool.query(`
@@ -29,15 +28,35 @@ const createTables = async () => {
                 id SERIAL PRIMARY KEY,
                 nom VARCHAR(50) NOT NULL,
                 prenom VARCHAR(50) NOT NULL,
-                email VARCHAR(150) NOT NULL UNIQUE,
+                email VARCHAR(150) NOT NULL,        -- ✅ UNIQUE supprimé ici
                 date_ajout DATE DEFAULT CURRENT_DATE,
                 user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
             )
         `)
 
-        console.log("✅ Tables créées avec succès")
+        -- ✅ Supprime l'ancienne contrainte globale
+        await pool.query(`
+            ALTER TABLE contacts 
+            DROP CONSTRAINT IF EXISTS contacts_email_key
+        `)
+
+        -- ✅ Ajoute contrainte unique par user
+        await pool.query(`
+            DO $$ BEGIN
+                IF NOT EXISTS (
+                    SELECT 1 FROM pg_constraint 
+                    WHERE conname = 'contacts_email_user_unique'
+                ) THEN
+                    ALTER TABLE contacts 
+                    ADD CONSTRAINT contacts_email_user_unique 
+                    UNIQUE(email, user_id);
+                END IF;
+            END $$;
+        `)
+
+        console.log("✅ Tables et contraintes configurées")
     } catch(error) {
-        console.error("❌ Erreur création tables:", error.message)
+        console.error("❌ Erreur:", error.message)
     }
 }
 
@@ -56,7 +75,6 @@ app.use(session({
 
 app.use(passport.initialize())
 
-// Redirige vers login
 app.get('/', (req, res) => {
     res.redirect('/login.html')
 })
