@@ -12,6 +12,7 @@
 <header class="navbar">
     <span class="logo">ContactPro</span>
 </header>
+
 <main class="container">
 
     <h2>Ajouter un contact</h2>
@@ -24,7 +25,6 @@
         <button type="submit">Ajouter</button>
     </form>
 
-    <!-- ✅ Un seul searchInput -->
     <input type="text" id="searchInput" placeholder="🔍 Rechercher par nom ou prénom...">
 
     <div class="table-wrapper">
@@ -43,15 +43,21 @@
     </div>
 
 </main>
-<!-- ✅ Script Google token AVANT index.js -->
+
 <script>
-    // Récupère le token depuis l'URL après connexion Google
-    const urlParams = new URLSearchParams(window.location.search)
-    const tokenFromGoogle = urlParams.get('token')
+    // ✅ Récupère le token depuis le cookie Google
+    function getCookie(name){
+        const value = `; ${document.cookie}`
+        const parts = value.split(`; ${name}=`)
+        if(parts.length === 2) return parts.pop().split(';').shift()
+    }
+
+    const tokenFromGoogle = getCookie('google_token')
+    console.log("🔑 token Google cookie:", tokenFromGoogle)
 
     if(tokenFromGoogle){
         sessionStorage.setItem("token", tokenFromGoogle)
-        window.history.replaceState({}, document.title, "/index.html")
+        document.cookie = "google_token=; Max-Age=0" // ✅ supprime le cookie
     }
 
     if(!sessionStorage.getItem("token")){
@@ -59,6 +65,6 @@
     }
 </script>
 
-<script src="index.js"></script> <!-- ✅ après le script Google -->
+<script src="index.js"></script>
 </body>
 </html>
