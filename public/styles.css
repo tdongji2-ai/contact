@@ -4,6 +4,8 @@ body {
     background-color: #f2f2f2;
 }
 
+/* NAVBAR */
+
 .navbar {
     background: rgb(80, 80, 122);
     color: white;
@@ -18,6 +20,8 @@ body {
     font-size: 18px;
 }
 
+/* CONTAINER */
+
 .container {
     width: 90%;
     max-width: 1200px;
@@ -29,49 +33,48 @@ h2 {
     color: #333;
 }
 
-/* FORMULAIRE */
+/* FORM */
+
 form {
     margin: 20px 0;
     display: flex;
-    flex-wrap: wrap; /* ✅ retour à la ligne sur mobile */
+    flex-wrap: wrap;
     gap: 10px;
 }
 
 form input {
-    padding: 8px;
-    flex: 1 1 200px; /* ✅ s'adapte à la largeur */
-    min-width: 0;
+    padding: 10px;
+    flex: 1 1 200px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
 form button {
-    padding: 8px 16px;
-    flex: 1 1 100px;
+    padding: 10px;
+    flex: 1 1 120px;
 }
 
 /* SEARCH */
+
 #searchInput {
     width: 100%;
-    max-width: 400px;
-    padding: 8px;
+    padding: 10px;
     margin: 20px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-sizing: border-box;
 }
 
 /* TABLE */
+
 .table-wrapper {
-    overflow-x: auto; /* ✅ scroll horizontal sur mobile */
-    width: 100%;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background: white;
-    min-width: 500px; /* ✅ évite que la table soit trop compressée */
+    min-width: 500px;
 }
 
 thead {
@@ -82,14 +85,15 @@ th, td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
     text-align: left;
-    white-space: nowrap; /* ✅ évite le retour à la ligne dans les cellules */
+    white-space: nowrap;
 }
 
 tr:hover {
     background-color: #f9f9f9;
 }
 
-/* BOUTONS */
+/* BUTTONS */
+
 .edit {
     background-color: #2ecc71;
     border: none;
@@ -116,8 +120,17 @@ tr:hover {
     background-color: #c0392b;
 }
 
-/* ✅ RESPONSIVE MOBILE */
+/* TABLE MOBILE SCROLL */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* RESPONSIVE TABLET */
+
 @media (max-width: 768px) {
+
     .container {
         width: 100%;
         margin: 20px auto;
@@ -125,27 +138,24 @@ tr:hover {
     }
 
     form {
-        flex-direction: column; /* ✅ formulaire en colonne */
+        flex-direction: column;
     }
 
     form input,
     form button {
         width: 100%;
-        box-sizing: border-box;
-    }
-
-    #searchInput {
-        max-width: 100%;
     }
 
     th, td {
-        padding: 8px;
         font-size: 14px;
+        padding: 8px;
     }
 }
 
-/* ✅ RESPONSIVE TRES PETIT ECRAN */
+/* RESPONSIVE MOBILE */
+
 @media (max-width: 480px) {
+
     .logo {
         font-size: 16px;
     }
@@ -155,7 +165,11 @@ tr:hover {
     }
 
     .edit, .delete {
-        padding: 4px 8px;
+        padding: 5px 8px;
         font-size: 12px;
+    }
+
+    table {
+        min-width: 450px;
     }
 }
