@@ -28,30 +28,10 @@ const createTables = async () => {
                 id SERIAL PRIMARY KEY,
                 nom VARCHAR(50) NOT NULL,
                 prenom VARCHAR(50) NOT NULL,
-                email VARCHAR(150) NOT NULL,        -- ✅ UNIQUE supprimé ici
+                email VARCHAR(150) NOT NULL,
                 date_ajout DATE DEFAULT CURRENT_DATE,
                 user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
             )
-        `)
-
-      
-        await pool.query(`
-            ALTER TABLE contacts 
-            DROP CONSTRAINT IF EXISTS contacts_email_key
-        `)
-
-       
-        await pool.query(`
-            DO $$ BEGIN
-                IF NOT EXISTS (
-                    SELECT 1 FROM pg_constraint 
-                    WHERE conname = 'contacts_email_user_unique'
-                ) THEN
-                    ALTER TABLE contacts 
-                    ADD CONSTRAINT contacts_email_user_unique 
-                    UNIQUE(email, user_id);
-                END IF;
-            END $$;
         `)
 
         console.log("✅ Tables et contraintes configurées")
@@ -59,33 +39,6 @@ const createTables = async () => {
         console.error("❌ Erreur:", error.message)
     }
 }
-
-// 🔧 Route temporaire pour fixer la contrainte — À SUPPRIMER APRÈS
-app.get('/fix-constraint', async (req, res) => {
-    try {
-        await pool.query(`
-            ALTER TABLE contacts 
-            DROP CONSTRAINT IF EXISTS contacts_email_key
-        `)
-
-        await pool.query(`
-            DO $$ BEGIN
-                IF NOT EXISTS (
-                    SELECT 1 FROM pg_constraint 
-                    WHERE conname = 'contacts_email_user_unique'
-                ) THEN
-                    ALTER TABLE contacts 
-                    ADD CONSTRAINT contacts_email_user_unique 
-                    UNIQUE(email, user_id);
-                END IF;
-            END $$;
-        `)
-
-        res.json({ message: "✅ Contrainte corrigée avec succès !" })
-    } catch(error) {
-        res.json({ error: error.message })
-    }
-})
 
 createTables()
 
