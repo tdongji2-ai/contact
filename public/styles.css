@@ -1,15 +1,16 @@
-
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f2f2f2;
 }
 
-
 .navbar {
     background: rgb(80, 80, 122);
     color: white;
     padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo {
@@ -17,10 +18,11 @@ body {
     font-size: 18px;
 }
 
-
 .container {
-    width: 80%;
+    width: 90%;
+    max-width: 1200px;
     margin: 40px auto;
+    padding: 0 15px;
 }
 
 h2 {
@@ -30,18 +32,46 @@ h2 {
 /* FORMULAIRE */
 form {
     margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap; /* ✅ retour à la ligne sur mobile */
+    gap: 10px;
 }
 
 form input {
     padding: 8px;
-    margin-right: 10px;
+    flex: 1 1 200px; /* ✅ s'adapte à la largeur */
+    min-width: 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+form button {
+    padding: 8px 16px;
+    flex: 1 1 100px;
+}
+
+/* SEARCH */
+#searchInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 /* TABLE */
+.table-wrapper {
+    overflow-x: auto; /* ✅ scroll horizontal sur mobile */
+    width: 100%;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     background: white;
+    min-width: 500px; /* ✅ évite que la table soit trop compressée */
 }
 
 thead {
@@ -52,6 +82,7 @@ th, td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
     text-align: left;
+    white-space: nowrap; /* ✅ évite le retour à la ligne dans les cellules */
 }
 
 tr:hover {
@@ -83,4 +114,48 @@ tr:hover {
 
 .delete:hover {
     background-color: #c0392b;
+}
+
+/* ✅ RESPONSIVE MOBILE */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+
+    form {
+        flex-direction: column; /* ✅ formulaire en colonne */
+    }
+
+    form input,
+    form button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #searchInput {
+        max-width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+/* ✅ RESPONSIVE TRES PETIT ECRAN */
+@media (max-width: 480px) {
+    .logo {
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .edit, .delete {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
 }
