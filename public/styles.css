@@ -1,175 +1,293 @@
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f2f2f2;
+/* ===== VARIABLES ===== */
+:root {
+    --primary: rgb(80, 80, 122);
+    --primary-dark: rgb(60, 60, 100);
+    --success: #2ecc71;
+    --success-dark: #27ae60;
+    --danger: #e74c3c;
+    --danger-dark: #c0392b;
+    --bg: #f2f2f2;
+    --white: #ffffff;
+    --border: #ddd;
+    --text: #333;
+    --radius: 8px;
 }
 
-/* NAVBAR */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+/* ===== NAVBAR ===== */
 .navbar {
-    background: rgb(80, 80, 122);
+    background: var(--primary);
     color: white;
-    padding: 12px 20px;
+    padding: 14px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .logo {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
+    letter-spacing: 1px;
 }
 
-/* CONTAINER */
+#logoutBtn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 6px 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
 
+#logoutBtn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* ===== CONTAINER ===== */
 .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 15px;
+    width: 95%;
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 10px;
 }
 
 h2 {
-    color: #333;
+    color: var(--primary);
+    margin-bottom: 16px;
+    font-size: 22px;
 }
 
-/* FORM */
-
+/* ===== FORMULAIRE ===== */
 form {
-    margin: 20px 0;
+    background: var(--white);
+    padding: 16px;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-bottom: 20px;
 }
 
 form input {
-    padding: 10px;
-    flex: 1 1 200px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px 12px;
+    flex: 1 1 180px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 15px;
+    outline: none;
+    transition: border 0.2s;
 }
 
-form button {
-    padding: 10px;
+form input:focus {
+    border-color: var(--primary);
+}
+
+form button[type="submit"] {
+    padding: 10px 20px;
     flex: 1 1 120px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
-/* SEARCH */
+form button[type="submit"]:hover {
+    background: var(--primary-dark);
+}
 
+#errorMessage {
+    color: var(--danger);
+    margin-bottom: 10px;
+    font-size: 14px;
+    min-height: 18px;
+}
+
+/* ===== SEARCH ===== */
 #searchInput {
     width: 100%;
-    padding: 10px;
-    margin: 20px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 15px;
+    outline: none;
+    transition: border 0.2s;
+    background: var(--white);
 }
 
-/* TABLE */
+#searchInput:focus {
+    border-color: var(--primary);
+}
 
+/* ===== TABLE ===== */
 .table-wrapper {
+    width: 100%;
     overflow-x: auto;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    min-width: 500px;
+    background: var(--white);
+    min-width: 480px;
 }
 
 thead {
-    background-color: #f7f7f7;
+    background-color: var(--primary);
+    color: white;
 }
 
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
+th {
+    padding: 12px 14px;
     text-align: left;
-    white-space: nowrap;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
-tr:hover {
-    background-color: #f9f9f9;
+td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
 }
 
-/* BUTTONS */
+tr:last-child td {
+    border-bottom: none;
+}
 
+tr:hover td {
+    background-color: #f5f5fc;
+}
+
+/* ===== BOUTONS ACTION ===== */
 .edit {
-    background-color: #2ecc71;
+    background-color: var(--success);
     border: none;
     color: white;
     padding: 6px 12px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+    margin-right: 4px;
 }
 
 .edit:hover {
-    background-color: #27ae60;
+    background-color: var(--success-dark);
 }
 
 .delete {
-    background-color: #e74c3c;
+    background-color: var(--danger);
     border: none;
     color: white;
     padding: 6px 12px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
 }
 
 .delete:hover {
-    background-color: #c0392b;
+    background-color: var(--danger-dark);
 }
 
-/* TABLE MOBILE SCROLL */
-
-.table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-}
-
-/* RESPONSIVE TABLET */
-
+/* ===== RESPONSIVE TABLETTE ===== */
 @media (max-width: 768px) {
-
     .container {
         width: 100%;
-        margin: 20px auto;
-        padding: 0 10px;
-    }
-
-    form {
-        flex-direction: column;
-    }
-
-    form input,
-    form button {
-        width: 100%;
-    }
-
-    th, td {
-        font-size: 14px;
-        padding: 8px;
-    }
-}
-
-/* RESPONSIVE MOBILE */
-
-@media (max-width: 480px) {
-
-    .logo {
-        font-size: 16px;
+        margin: 16px auto;
     }
 
     h2 {
         font-size: 18px;
     }
 
-    .edit, .delete {
-        padding: 5px 8px;
+    form {
+        flex-direction: column;
+        padding: 12px;
+    }
+
+    form input,
+    form button[type="submit"] {
+        width: 100%;
+        flex: none;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 13px;
+    }
+}
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 12px 14px;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    #logoutBtn {
+        padding: 5px 10px;
         font-size: 12px;
     }
 
+    .container {
+        padding: 0 8px;
+        margin: 12px auto;
+    }
+
+    form {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    form input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
     table {
-        min-width: 450px;
+        min-width: 420px;
+    }
+
+    th {
+        font-size: 12px;
+        padding: 10px 8px;
+    }
+
+    td {
+        font-size: 12px;
+        padding: 9px 8px;
+    }
+
+    .edit, .delete {
+        padding: 5px 8px;
+        font-size: 11px;
     }
 }

@@ -12,38 +12,37 @@
 <header class="navbar">
     <span class="logo">ContactPro</span>
 </header>
-
 <main class="container">
 
     <h2>Ajouter un contact</h2>
+    <p id="errorMessage"></p>
 
-    <input type="text" id="searchInput" placeholder="Rechercher par nom ou prénom...">
     <form id="contactForm">
         <input type="text" id="nom" placeholder="Nom" required>
         <input type="text" id="prenom" placeholder="Prénom" required>
         <input type="email" id="email" placeholder="Email" required>
-        <button type="submit" class="edit">Ajouter</button>
+        <button type="submit">Ajouter</button>
     </form>
 
-    <input type="text" id="searchInput" placeholder="Rechercher par nom ou prénom..." style="margin:20px 0; padding:8px; width:300px;">
-   
+    <!-- ✅ Un seul searchInput -->
+    <input type="text" id="searchInput" placeholder="🔍 Rechercher par nom ou prénom...">
+
     <div class="table-wrapper">
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Date d'ajout</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="contactTableBody"></tbody>
-    </table>
-</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Date d'ajout</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="contactTableBody"></tbody>
+        </table>
+    </div>
 
 </main>
-
 <!-- ✅ Script Google token AVANT index.js -->
 <script>
     // Récupère le token depuis l'URL après connexion Google
