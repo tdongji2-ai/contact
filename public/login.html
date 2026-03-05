@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 10px; /* ✅ espace entre les boutons */
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    #errorMessage {
+        color: red;
+        margin-bottom: 10px;
+    }
+</style>
+<body>
+    <h1>Connexion</h1>
+
+    <p id="errorMessage"></p>
+
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="Email" required><br><br>
+        <input type="password" id="password" placeholder="Mot de passe" required><br><br>
+        <button type="submit">Se connecter</button>
+        <button type="button" onclick="window.location.href='http://localhost:3000/api/auth/google'">
+            🔵 Se connecter avec Google
+        </button>
+        <a href="/inscription.html">Pas encore inscrit ? Inscrivez-vous ici.</a>
+    </form>
+
+    <script>
+        const BASE_URL = "http://localhost:3000" // ✅ ajouté
+
+        // ✅ sessionStorage au lieu de localStorage
+        if(sessionStorage.getItem("token")){
+            window.location.href = "/index.html"
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault()
+
+            const data = {
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+            }
+
+            const reponse = await fetch(`${BASE_URL}/api/auth/login`, { // ✅ BASE_URL
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+
+            const resultat = await reponse.json()
+
+            if(!reponse.ok){
+                document.getElementById("errorMessage").textContent = resultat.error
+                return
+            }
+
+            // ✅ sessionStorage au lieu de localStorage
+            sessionStorage.setItem("token", resultat.token)
+
+            window.location.href = "/index.html"
+        })
+    </script>
+</body>
+</html>

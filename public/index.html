@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>ContactPro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+ <script>
+        const BASE_URL = "http://localhost:3000"
+
+        // Récupère le token depuis l'URL après connexion Google
+        const urlParams = new URLSearchParams(window.location.search)
+        const tokenFromGoogle = urlParams.get('token')
+
+        console.log("🔑 token Google:", tokenFromGoogle) // 👈 ajoute ça
+
+        if(tokenFromGoogle){
+            sessionStorage.setItem("token", tokenFromGoogle) // ✅ sauvegarde
+            window.history.replaceState({}, document.title, "/index.html") // ✅ nettoie l'URL
+        }
+
+        if(!sessionStorage.getItem("token")){
+            window.location.href = "/login.html"
+        }
+    </script>
+
+<body>
+
+<header class="navbar">
+    <span class="logo">ContactPro</span>
+</header>
+
+<main class="container">
+
+    <h2>Ajouter un contact</h2>
+
+    <!-- FORMULAIRE -->
+     <p id="errorMessage" style="color:red;"></p>
+    <form id="contactForm">
+        <input type="text" id="nom" placeholder="Nom" required>
+        <input type="text" id="prenom" placeholder="Prénom" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="date" id="date_ajout" required>
+        <button type="submit" class="edit">Ajouter</button>
+    </form>
+
+    <!-- TABLEAU -->
+     <input type="text" id="searchInput" placeholder="Rechercher par nom ou prénom..." style="margin:20px 0; padding:8px; width:300px;">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Date d'ajout</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody id="contactTableBody">
+        
+        </tbody>
+    </table>
+
+</main>
+ <script src="index.js"></script>
+</body>
+</html>
