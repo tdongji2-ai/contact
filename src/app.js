@@ -34,13 +34,13 @@ const createTables = async () => {
             )
         `)
 
-        -- ✅ Supprime l'ancienne contrainte globale
+      
         await pool.query(`
             ALTER TABLE contacts 
             DROP CONSTRAINT IF EXISTS contacts_email_key
         `)
 
-        -- ✅ Ajoute contrainte unique par user
+       
         await pool.query(`
             DO $$ BEGIN
                 IF NOT EXISTS (
@@ -59,6 +59,33 @@ const createTables = async () => {
         console.error("❌ Erreur:", error.message)
     }
 }
+
+// 🔧 Route temporaire pour fixer la contrainte — À SUPPRIMER APRÈS
+app.get('/fix-constraint', async (req, res) => {
+    try {
+        await pool.query(`
+            ALTER TABLE contacts 
+            DROP CONSTRAINT IF EXISTS contacts_email_key
+        `)
+
+        await pool.query(`
+            DO $$ BEGIN
+                IF NOT EXISTS (
+                    SELECT 1 FROM pg_constraint 
+                    WHERE conname = 'contacts_email_user_unique'
+                ) THEN
+                    ALTER TABLE contacts 
+                    ADD CONSTRAINT contacts_email_user_unique 
+                    UNIQUE(email, user_id);
+                END IF;
+            END $$;
+        `)
+
+        res.json({ message: "✅ Contrainte corrigée avec succès !" })
+    } catch(error) {
+        res.json({ error: error.message })
+    }
+})
 
 createTables()
 
