@@ -16,17 +16,27 @@ router.get('/google',
 router.get('/google/callback',
     passport.authenticate('google', { session: false, failureRedirect: '/login.html' }),
     (req, res) => {
-        console.log("✅ Google callback — user:", req.user) // 👈 ajoute ça
-
         const token = jwt.sign(
             { id: req.user.id, email: req.user.email, nom: req.user.nom },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         )
 
-        console.log("✅ Token généré:", token) // 👈 et ça
+        console.log("✅ Token généré:", token)
 
-        res.redirect(`/index.html?token=${token}`)
+        // ✅ Page HTML qui sauvegarde le token et redirige
+        res.send(`
+            <!DOCTYPE html>
+            <html>
+            <body>
+            <script>
+                sessionStorage.setItem('token', '${token}')
+                window.location.href = '/index.html'
+            </script>
+            </body>
+            </html>
+        `)
     }
 )
+
 module.exports = router
